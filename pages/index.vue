@@ -1,9 +1,6 @@
 <template>
   <div>
     <Post></Post>
-    <!-- <Button :color="'primary'" :name="'Submit'" @submit-button="snackbar = !snackbar"></Button>
-    <Snackbar :color="'primary'" :snackbar="snackbar" :text="'Posted Successfully!'"></Snackbar>
-    <Modal :maxWidth="500" :myDialog="dialog" :text="'Are you sure you want to submit this form?'" :title="'Confirmation'" :titleColor="'primary--text'"></Modal> -->
     <Card></Card>
   </div>
 </template>
@@ -19,10 +16,6 @@ export default {
   name: "homePage",
   data() {
     return {
-      dialog: false,
-      snackbar: true,
-      tags: ['Hello', "this is tag", 'Hi'],
-      image: 'https://picsum.photos/seed/picsum/200/300'
     };
   },
 };

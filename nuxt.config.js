@@ -43,7 +43,8 @@ export default {
     modules: ['@nuxtjs/axios'],
 
     axios: {
-        baseURL: process.env.baseURL
+        baseURL: process.env.baseURL,
+        accept: 'application/json'
     },
 
     // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

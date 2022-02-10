@@ -1,5 +1,5 @@
 <template>
-  <v-btn :color="color" elevation="0" small @click="$emit('submit-button')">
+  <v-btn :color="color" elevation="0" small @click="$emit('submit-button')" :loading="loading">
     <v-icon small left v-if="icon">{{icon}}</v-icon>
     {{name}}
   </v-btn>
@@ -19,6 +19,10 @@
       },
       icon: {
         type: String,
+        required: false,
+      },
+      loading: {
+        type: Boolean,
         required: false,
       },
     }

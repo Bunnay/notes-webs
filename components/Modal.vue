@@ -1,16 +1,16 @@
 <template>
-  <v-dialog v-model="myDialog" :max-width="maxWidth + 'px'">
+  <v-dialog v-model="myDialog" :max-width="maxWidth + 'px'" light>
     <v-card flat>
       <v-card-title>
         <h4 :class="titleColor">{{title}}</h4>
       </v-card-title>
       <v-card-text>
-        {{text}}
+        <slot name="modalContent"></slot>
       </v-card-text>
       <v-card-actions>
         <Button :color="'white'" :name="'cancel'" @submit-button="$emit('click-cancel')"></Button>
         <v-spacer></v-spacer>
-        <Button :color="'primary'" :name="'submit'" @submit-button="$emit('click-submit')"></Button>
+        <Button :color="'primary'" :name="'submit'" @submit-button="$emit('click-submit')" :loading="loading"></Button>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -41,6 +41,10 @@
       },
       text: {
         type: String,
+        required: false,
+      },
+      loading: {
+        type: Boolean,
         required: false,
       },
     }

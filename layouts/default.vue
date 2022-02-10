@@ -21,7 +21,7 @@
       <v-spacer></v-spacer>
       <v-toolbar-title>Wall of Sharing</v-toolbar-title>
     </v-app-bar>
-      <chip-group :style="{marginTop: '64px', position: 'fixed', zIndex: '1', width: '100%'}"></chip-group>
+      <chip-group :style="{marginTop: '64px', position: 'fixed', zIndex: '1', width: '100%'}" @post-with-tags="getPostWithTags"></chip-group>
       <v-main :style="{marginTop: '60px'}">
         <v-container fluid>
           <Nuxt />
@@ -37,27 +37,14 @@ export default {
   name: "DefaultLayout",
   data() {
     return {
-      tags: [
-        "Work",
-        "Home Improvement",
-        "Vacation",
-        "Food",
-        "Drawers",
-        "Shopping",
-        "Art",
-        "Tech",
-        "Creative Writing",
-        "Work",
-        "Home Improvement",
-        "Vacation",
-        "Food",
-        "Drawers",
-        "Shopping",
-        "Art",
-        "Tech",
-        "Creative Writing",
-      ],
+      search: '',
     };
+  },
+
+  methods: {
+    async getPostWithTags(itemValue) {
+      this.$nuxt.$emit("click-tags", itemValue);
+    }
   },
 };
 </script>

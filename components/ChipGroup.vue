@@ -5,6 +5,7 @@
       active-class="primary--text"
       show-arrows
       class="me-2 ms-2"
+      v-model="itemValue"
     >
       <v-chip v-for="tag in tags" :key="tag.id">
         {{ tag.name }}
@@ -18,7 +19,16 @@ export default {
   data() {
     return {
       tags: [],
+      itemValue: [],
     };
+  },
+
+  watch: {
+    itemValue: {
+      handler() {
+         this.$emit("post-with-tags", this.itemValue);
+      }
+    }
   },
 
   async fetch() {
