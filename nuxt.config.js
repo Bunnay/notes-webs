@@ -27,7 +27,8 @@ export default {
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [
-        '~plugins/vue-api-query'
+        '~plugins/vue-api-query',
+        { src: '~/plugins/infiniteloading', ssr: false },
     ],
 
     // Auto import components: https://go.nuxtjs.dev/config-components
@@ -40,11 +41,32 @@ export default {
     ],
 
     // Modules: https://go.nuxtjs.dev/config-modules
-    modules: ['@nuxtjs/axios'],
+    modules: ['@nuxtjs/axios', '@nuxtjs/auth-next'],
 
     axios: {
         baseURL: process.env.baseURL,
         accept: 'application/json'
+    },
+
+    auth: {
+        strategies: {
+            local: {
+                token: {
+                    property: "data.access_token",
+                    global: true,
+                    required: true,
+                    type: "Bearer"
+                },
+                user: {
+                    property: "data"
+                },
+                endpoints: {
+                    login: { url: "/auth/login", method: "post" },
+                    logout: { url: "/auth/logout", method: "post" },
+                    user: { url: "/users/me", method: "get" }
+                }
+            }
+        }
     },
 
     // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

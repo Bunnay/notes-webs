@@ -31,6 +31,7 @@ export default {
     }
   },
 
+
   async fetch() {
     const { data } = await this.$axios.get("/tags");
     this.tags = data.data;

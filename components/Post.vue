@@ -1,8 +1,25 @@
 <template>
   <div>
-    <v-btn block large left class="mb-5" @click="(dialog = true), clickPostButton()">
-      What is on your mind, Bunnay?
-    </v-btn>
+    <v-container fluid>
+    <v-card outlined>
+      <v-card-title>
+        <h5>Create Post</h5>
+      </v-card-title>
+      <v-card-text>
+        <v-btn
+          large
+          left
+          block
+          class="rounded"
+          @click="(dialog = true), clickPostButton()"
+          outlined
+          color="teal"
+        >
+          What is on your mind, Bunnay?
+        </v-btn>
+      </v-card-text>
+    </v-card></v-container>
+
     <Modal
       :maxWidth="500"
       :myDialog="dialog"
@@ -36,10 +53,13 @@
         >
         </v-textarea>
 
-        <v-btn block elevation="0" class="rounded">
+        <!-- <v-btn block elevation="0" class="rounded">
           <v-icon>mdi-image</v-icon>
           Add Image</v-btn
-        >
+        > -->
+        <v-file-input label="Image" v-model="image" filled class="rounded" type="file" accept="image/x-png,image/gif,image/jpeg">
+
+        </v-file-input>
       </template>
     </Modal>
 
@@ -73,12 +93,11 @@ export default {
   },
 
   methods: {
-
     clickPostButton() {
-      this.title = '';
-      this.body = '';
+      this.title = "";
+      this.body = "";
       this.image = null;
-      this.tag_ids = [1,2];
+      this.tag_ids = [1, 2];
     },
 
     async submitPost() {
@@ -86,16 +105,23 @@ export default {
       this.error = null;
       this.loading = true;
       try {
-        const hasImage = {
-          image: this.image,
+        // const hasImage = {
+        //   image: this.image,
+        // };
+        // const withoutImage = {
+        //   body: this.body,
+        //   title: this.title,
+        //   tag_ids: this.tag_ids,
+        // };
+        // const res = Object.assign(withoutImage, this.image ? hasImage : "");
+        const formData = new FormData();
+        formData.append('title', this.title)
+        formData.append('body', this.body)
+        for(let i=0;i<this.tag_ids.length;i++) {
+            formData.append(`tag_ids[${i}]`, this.tag_ids[i])
         };
-        const withoutImage = {
-          body: this.body,
-          title: this.title,
-          tag_ids: this.tag_ids,
-        };
-        const res = Object.assign(withoutImage, this.image ? hasImage : "");
-        let response = await this.$axios.post("/posts", withoutImage);
+        formData.append('image', this.image);
+        let response = await this.$axios.post("/posts", formData);
         this.success = response.data.message;
       } catch (e) {
         this.error = e.response.data.message;
@@ -103,21 +129,20 @@ export default {
         this.dialog = false;
         this.loading = false;
         this.snackbar = true;
-        this.$fetch()
+        this.$fetch();
       }
       setTimeout(() => {
         this.snackbar = false;
       }, 1000);
     },
-
   },
 
   async fetch() {
     const { data } = await this.$axios.get(
-        "/posts?sort=-created_at&include=tags"
-      );
-      this.posts = data.data;
-  }
+      "/posts?sort=-created_at&include=tags"
+    );
+    this.posts = data.data;
+  },
 };
 </script>
 
