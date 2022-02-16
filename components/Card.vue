@@ -115,7 +115,6 @@ export default {
       this.loading = true;
       const {data} = await this.$axios.get('/posts?sort=-created_at&include=tags&limit=100&filter[title]=' + search)
       this.posts = data.data;
-      console.log(this.posts);
       this.loading = false;
     },
     async clickBarTags(itemValue) {
@@ -127,7 +126,6 @@ export default {
       for (let i = 0; i < res.length; i++) {
         res[i] += 1;
       }
-      console.log(res);
       const { data } = await this.$axios.get(
         "/posts?sort=-created_at&filter[tags.id]=" +
           res.toString() +
@@ -142,12 +140,12 @@ export default {
     this.$nuxt.$on("click-tags", (itemValue) => {
       this.clickBarTags(itemValue);
     });
+
     this.$nuxt.$on("click-search", (search) => {
       this.clickSearch(search);
     });
 
      this.$nuxt.$on("fetch-posts", (posts) => {
-      // this.clickSearch(search);
       this.$fetch();
     });
   },

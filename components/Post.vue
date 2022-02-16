@@ -13,9 +13,9 @@
             class="rounded"
             @click="(dialog = true), clickPostButton()"
             outlined
-            color="teal"
+            color="primary"
           >
-            What is on your mind, Bunnay?
+            What is on your mind?
           </v-btn>
         </v-card-text>
       </v-card></v-container
@@ -61,9 +61,14 @@
           :items="tags"
           multiple
           label="Tags"
+          small-chips
+          deletable-chips
+          full-width
+          hide-details
+
           filled
           @focus="getTags"
-          class="rounded"
+          class="rounded mb-2"
         >
         </v-autocomplete>
         <v-file-input

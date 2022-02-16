@@ -2,7 +2,7 @@
   <v-sheet elevation="5">
     <v-chip-group
       multiple
-      active-class="primary--text"
+      active-class="primary white--text"
       show-arrows
       class="me-2 ms-2"
       v-model="itemValue"

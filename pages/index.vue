@@ -2,7 +2,6 @@
   <div>
     <Post></Post>
     <Card></Card>
-    <!-- <bottom-sheet></bottom-sheet> -->
   </div>
 </template>
 

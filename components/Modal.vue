@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="myDialog" :max-width="maxWidth + 'px'" light>
+  <v-dialog v-model="myDialog" :max-width="maxWidth + 'px'" light persistent>
     <v-card flat>
       <v-card-title>
         <h4 :class="titleColor">{{title}}</h4>

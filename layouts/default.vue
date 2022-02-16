@@ -22,14 +22,6 @@
         </v-col>
       </v-row>
       <v-spacer></v-spacer>
-      <!-- <div v-if="$auth.loggedIn == true">
-        <v-btn small outlined depressed fab color="teal" class="me-3">
-          <v-icon>mdi-note-plus-outline</v-icon>
-        </v-btn>
-        <v-btn small outlined depressed fab color="teal" class="me-3">
-          <v-icon>mdi-tag</v-icon>
-        </v-btn>
-      </div> -->
       <v-toolbar-title>Wall of Sharing</v-toolbar-title>
     </v-app-bar>
     <chip-group
@@ -42,7 +34,6 @@
       @post-with-tags="getPostWithTags"
     ></chip-group>
     <v-main :style="{ marginTop: '60px' }">
-      <!-- <v-main> -->
       <v-container fluid>
         <Nuxt />
       </v-container>
