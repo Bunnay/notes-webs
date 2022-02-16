@@ -31,9 +31,8 @@ export default {
     }
   },
 
-
   async fetch() {
-    const { data } = await this.$axios.get("/tags");
+    const { data } = await this.$axios.get("/tags?limit=*");
     this.tags = data.data;
   },
 };

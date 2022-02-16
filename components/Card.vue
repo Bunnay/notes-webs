@@ -108,12 +108,7 @@ export default {
     },
 
     async fetchPosts() {
-      this.loading = true;
-      const { data } = await this.$axios.get(
-        "/posts?sort=-created_at&include=tags&limit=100"
-      );
-      this.posts = data.data;
-      this.loading = false;
+      this.$nuxt.$emit('fetch-posts',  this.posts);
     },
 
     async clickSearch(search) {
@@ -150,10 +145,20 @@ export default {
     this.$nuxt.$on("click-search", (search) => {
       this.clickSearch(search);
     });
+
+     this.$nuxt.$on("fetch-posts", (posts) => {
+      // this.clickSearch(search);
+      this.$fetch();
+    });
   },
 
   async fetch() {
-    await this.fetchPosts();
+    this.loading = true;
+      const { data } = await this.$axios.get(
+        "/posts?sort=-created_at&include=tags&limit=100"
+      );
+      this.posts = data.data;
+      this.loading = false;
   },
 };
 </script>

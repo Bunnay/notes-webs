@@ -1,24 +1,25 @@
 <template>
   <div>
     <v-container fluid>
-    <v-card outlined>
-      <v-card-title>
-        <h5>Create Post</h5>
-      </v-card-title>
-      <v-card-text>
-        <v-btn
-          large
-          left
-          block
-          class="rounded"
-          @click="(dialog = true), clickPostButton()"
-          outlined
-          color="teal"
-        >
-          What is on your mind, Bunnay?
-        </v-btn>
-      </v-card-text>
-    </v-card></v-container>
+      <v-card outlined>
+        <v-card-title>
+          <h5>Create Post</h5>
+        </v-card-title>
+        <v-card-text>
+          <v-btn
+            large
+            left
+            block
+            class="rounded"
+            @click="(dialog = true), clickPostButton()"
+            outlined
+            color="teal"
+          >
+            What is on your mind, Bunnay?
+          </v-btn>
+        </v-card-text>
+      </v-card></v-container
+    >
 
     <Modal
       :maxWidth="500"
@@ -53,12 +54,27 @@
         >
         </v-textarea>
 
-        <!-- <v-btn block elevation="0" class="rounded">
-          <v-icon>mdi-image</v-icon>
-          Add Image</v-btn
-        > -->
-        <v-file-input label="Image" v-model="image" filled class="rounded" type="file" accept="image/x-png,image/gif,image/jpeg">
-
+        <v-autocomplete
+          v-model="tag_ids"
+          item-text="name"
+          item-value="id"
+          :items="tags"
+          multiple
+          label="Tags"
+          filled
+          @focus="getTags"
+          class="rounded"
+        >
+        </v-autocomplete>
+        <v-file-input
+          label="Image"
+          v-model="image"
+          filled
+          class="rounded"
+          type="file"
+          accept="image/x-png,image/gif,image/jpeg"
+          prepend-icon=""
+        >
         </v-file-input>
       </template>
     </Modal>
@@ -83,12 +99,13 @@ export default {
       title: "",
       body: "",
       image: null,
-      tag_ids: [1, 2],
+      tag_ids: [],
       loading: false,
       success: null,
       error: null,
       snackbar: false,
       posts: [],
+      tags: [],
     };
   },
 
@@ -97,7 +114,7 @@ export default {
       this.title = "";
       this.body = "";
       this.image = null;
-      this.tag_ids = [1, 2];
+      this.tag_ids = [];
     },
 
     async submitPost() {
@@ -105,22 +122,13 @@ export default {
       this.error = null;
       this.loading = true;
       try {
-        // const hasImage = {
-        //   image: this.image,
-        // };
-        // const withoutImage = {
-        //   body: this.body,
-        //   title: this.title,
-        //   tag_ids: this.tag_ids,
-        // };
-        // const res = Object.assign(withoutImage, this.image ? hasImage : "");
         const formData = new FormData();
-        formData.append('title', this.title)
-        formData.append('body', this.body)
-        for(let i=0;i<this.tag_ids.length;i++) {
-            formData.append(`tag_ids[${i}]`, this.tag_ids[i])
-        };
-        formData.append('image', this.image);
+        formData.append("title", this.title);
+        formData.append("body", this.body);
+        for (let i = 0; i < this.tag_ids.length; i++) {
+          formData.append(`tag_ids[${i}]`, this.tag_ids[i]);
+        }
+        this.image ? formData.append("image", this.image) : "";
         let response = await this.$axios.post("/posts", formData);
         this.success = response.data.message;
       } catch (e) {
@@ -129,17 +137,25 @@ export default {
         this.dialog = false;
         this.loading = false;
         this.snackbar = true;
-        this.$fetch();
+        this.fetchPosts();
       }
       setTimeout(() => {
         this.snackbar = false;
       }, 1000);
     },
+    async getTags() {
+      const { data } = await this.$axios.get("/tags?limit=*");
+      this.tags = data.data;
+    },
+
+    async fetchPosts() {
+      this.$nuxt.$emit('fetch-posts',  this.posts);
+    },
   },
 
   async fetch() {
     const { data } = await this.$axios.get(
-      "/posts?sort=-created_at&include=tags"
+      "/posts?sort=-created_at&include=tags&limit=100"
     );
     this.posts = data.data;
   },
