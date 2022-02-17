@@ -9,7 +9,9 @@
     </v-overlay>
     <div class="d-flex flex-wrap">
       <v-card
-        class="box-shadow me-2 ms-2 mt-2 mb-2 d-flex flex-column"
+        class="box-shadow me-2 ms-2 mt-2 mb-2 flex-fill d-flex flex-column"
+        onMouseOver="this.style.backgroundColor='#272727'"
+        onMouseOut="this.style.backgroundColor='#1E1E1E'"
         width="338"
         v-for="post in posts"
         :key="post.id"
@@ -69,8 +71,8 @@
         </v-card-actions> -->
       </v-card>
     </div>
-    <div v-if="(posts.length == 0) && !loading" class="text-center mt-3">
-      <h4>No data</h4>
+    <div v-if="posts.length == 0 && !loading" class="text-center mt-3">
+      <h4>No posts found. :(</h4>
     </div>
   </div>
 </template>
@@ -88,7 +90,7 @@ export default {
   methods: {
     async clickTags(id) {
       const { data } = await this.$axios.get(
-        "/posts?filter[tags.id]=" + id + "&include=tags&limit=100"
+        "/posts?filter[tags.id]=" + id + "&include=tags&limit=*"
       );
       this.posts = data.data;
     },
@@ -108,12 +110,14 @@ export default {
     },
 
     async fetchPosts() {
-      this.$nuxt.$emit('fetch-posts',  this.posts);
+      this.$nuxt.$emit("fetch-posts", this.posts);
     },
 
     async clickSearch(search) {
       this.loading = true;
-      const {data} = await this.$axios.get('/posts?sort=-created_at&include=tags&limit=100&filter[title]=' + search)
+      const { data } = await this.$axios.get(
+        "/posts?sort=-created_at&include=tags&limit=*&filter[title]=" + search
+      );
       this.posts = data.data;
       this.loading = false;
     },
@@ -129,7 +133,7 @@ export default {
       const { data } = await this.$axios.get(
         "/posts?sort=-created_at&filter[tags.id]=" +
           res.toString() +
-          "&include=tags&limit=100"
+          "&include=tags&limit=*"
       );
       this.posts = data.data;
       this.loading = false;
@@ -145,18 +149,18 @@ export default {
       this.clickSearch(search);
     });
 
-     this.$nuxt.$on("fetch-posts", (posts) => {
+    this.$nuxt.$on("fetch-posts", (posts) => {
       this.$fetch();
     });
   },
 
   async fetch() {
     this.loading = true;
-      const { data } = await this.$axios.get(
-        "/posts?sort=-created_at&include=tags&limit=100"
-      );
-      this.posts = data.data;
-      this.loading = false;
+    const { data } = await this.$axios.get(
+      "/posts?sort=-created_at&include=tags&limit=*"
+    );
+    this.posts = data.data;
+    this.loading = false;
   },
 };
 </script>

@@ -1,28 +1,28 @@
 <template>
   <v-app>
     <v-app-bar app>
-      <v-avatar
-        ><v-img :src="require('~/assets/image/profile.png')"></v-img
-      ></v-avatar>
-      <v-row no-gutters>
-        <v-col cols="10">
-          <v-text-field
-            class="mx-1 ms-4"
-            v-model="search"
-            label="Search"
-            prepend-inner-icon="mdi-magnify"
-            rounded
-            hide-details
-            solo-inverted
-          >
-          </v-text-field>
-        </v-col>
-        <v-col>
-          <v-btn outlined rounded class="mt-2" @click="clickSearch">Search</v-btn>
-        </v-col>
-      </v-row>
+      <form
+        no-gutters
+        class="d-flex col-12 col-md-6 py-2"
+        style="align-items: center"
+        @submit="clickSearch"
+      >
+        <v-text-field
+          class="me-3"
+          v-model="search"
+          label="Search"
+          prepend-inner-icon="mdi-magnify"
+          rounded
+          hide-details
+          solo-inverted
+        >
+        </v-text-field>
+        <v-btn outlined rounded @click="clickSearch">Search</v-btn>
+      </form>
       <v-spacer></v-spacer>
-      <v-toolbar-title>Wall of Sharing</v-toolbar-title>
+      <v-toolbar-title class="d-none d-md-flex"
+        >Wall of Sharing</v-toolbar-title
+      >
     </v-app-bar>
     <chip-group
       :style="{
@@ -54,8 +54,9 @@ export default {
   },
 
   methods: {
-    async clickSearch() {
-     this.$nuxt.$emit('click-search',  this.search);
+    async clickSearch(e) {
+      e.preventDefault();
+      this.$nuxt.$emit("click-search", this.search);
     },
 
     async getPostWithTags(itemValue) {

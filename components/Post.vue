@@ -1,25 +1,26 @@
 <template>
   <div>
-    <v-container fluid>
-      <v-card outlined>
+    <v-container fluid class="my-4">
+      <v-btn
+        large
+        left
+        block
+        class="rounded"
+        @click="(dialog = true), clickPostButton()"
+        outlined
+        color="primary"
+      >
+        What is on your mind?
+      </v-btn>
+      <!-- <v-card outlined>
         <v-card-title>
-          <h5>Create Post</h5>
+          <h5>Let the world know </h5>
         </v-card-title>
         <v-card-text>
-          <v-btn
-            large
-            left
-            block
-            class="rounded"
-            @click="(dialog = true), clickPostButton()"
-            outlined
-            color="primary"
-          >
-            What is on your mind?
-          </v-btn>
+          
         </v-card-text>
-      </v-card></v-container
-    >
+      </v-card> -->
+    </v-container>
 
     <Modal
       :maxWidth="500"
@@ -65,9 +66,7 @@
           deletable-chips
           full-width
           hide-details
-
           filled
-          @focus="getTags"
           class="rounded mb-2"
         >
         </v-autocomplete>
@@ -154,7 +153,7 @@ export default {
     },
 
     async fetchPosts() {
-      this.$nuxt.$emit('fetch-posts',  this.posts);
+      this.$nuxt.$emit("fetch-posts", this.posts);
     },
   },
 
@@ -163,6 +162,7 @@ export default {
       "/posts?sort=-created_at&include=tags&limit=100"
     );
     this.posts = data.data;
+    this.getTags();
   },
 };
 </script>

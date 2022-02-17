@@ -4,7 +4,7 @@
       multiple
       active-class="primary white--text"
       show-arrows
-      class="me-2 ms-2"
+      class="px-1 px-md-5"
       v-model="itemValue"
     >
       <v-chip v-for="tag in tags" :key="tag.id">
@@ -26,9 +26,9 @@ export default {
   watch: {
     itemValue: {
       handler() {
-         this.$emit("post-with-tags", this.itemValue);
-      }
-    }
+        this.$emit("post-with-tags", this.itemValue);
+      },
+    },
   },
 
   async fetch() {
