@@ -7,7 +7,7 @@ export default {
     // Global page headers: https://go.nuxtjs.dev/config-head
     head: {
         titleTemplate: '%s',
-        title: 'wall-of-sharing',
+        title: 'notes-web',
         htmlAttrs: {
             lang: 'en'
         },
@@ -76,7 +76,7 @@ export default {
             options: {
                 customProperties: true
             },
-            dark: true,
+            dark: false,
             themes: {
                 dark: {
                     primary: colors.blue.darken2,

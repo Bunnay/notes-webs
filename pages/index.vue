@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Post></Post>
+    <Note></Note>
     <Card></Card>
   </div>
 </template>
@@ -10,10 +10,9 @@ import Modal from "../components/Modal.vue";
 import Snackbar from "../components/Snackbar.vue";
 import Button from "../components/Button.vue";
 import Card from '../components/Card.vue';
-import Post from '../components/Post.vue';
-import BottomSheet from '../components/BottomSheet.vue';
+import Note from '../components/Note.vue';
 export default {
-  components: { Modal, Snackbar, Button, Card, Post, BottomSheet },
+  components: { Modal, Snackbar, Button, Card, Note },
   name: "homePage",
   data() {
     return {
